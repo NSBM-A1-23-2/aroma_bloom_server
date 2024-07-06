@@ -32,7 +32,7 @@ Route::post('/purchase', [CandleController::class, 'store'])->middleware('auth:s
 
 
 // login as customer
-Route::post('/auth/login', [CandleController::class, 'store']);
+Route::post('/auth/login', [CustomerController::class, 'login']);
 Route::post('/auth/register', [CustomerController::class, 'register']);
 
 Route::post('/contact', [CandleController::class, 'store'])->middleware('auth:sanctum');
