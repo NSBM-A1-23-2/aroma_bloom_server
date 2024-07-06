@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandleController;
+use App\Http\Controllers\CustomerController;
+
 
 // This retrieve candle
 Route::get('/candles', [CandleController::class, 'index']);
@@ -30,8 +32,8 @@ Route::post('/purchase', [CandleController::class, 'store'])->middleware('auth:s
 
 
 // login as customer
-Route::post('/login', [CandleController::class, 'store'])->middleware('auth:sanctum');
-Route::post('/register', [CandleController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/auth/login', [CandleController::class, 'store']);
+Route::post('/auth/register', [CustomerController::class, 'register']);
 
 Route::post('/contact', [CandleController::class, 'store'])->middleware('auth:sanctum');
 
