@@ -7,6 +7,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReviewController;
+
 
 
 
@@ -16,8 +18,8 @@ Route::get('/candles', [CandleController::class, 'index']);
 Route::post('/candles/add', [CandleController::class, 'store'])->middleware('auth:sanctum');
 
 
-Route::get('/reviews', [CandleController::class, 'index']);
-Route::post('/reviews/add', [CandleController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::post('/reviews/add', [ReviewController::class, 'add'])->middleware('auth:sanctum');
 
 
 
