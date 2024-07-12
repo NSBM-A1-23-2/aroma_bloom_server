@@ -10,7 +10,13 @@ class Customer extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'fullName', 'password'];
+    protected $fillable = ['email', 'fullName', 'password', 'user_id'];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function reviews()
     {
@@ -21,9 +27,11 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-
     public function carts()
-    {
-        return $this->hasMany(Cart::class);
-    }
+{
+    return $this->hasMany(Cart::class);
+}
+
+
+  
 }
