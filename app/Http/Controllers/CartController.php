@@ -16,25 +16,28 @@ class CartController extends Controller
             'candle_id' => 'required|exists:candles,id',
             'quantity' => 'required|integer|min:1'
         ]);
-    
+
+
         $user = Auth::user();
         $customer = Customer::where('user_id', $user->id)->first();
-    
+
         if (!$customer) {
             return response()->json(['error' => 'Customer not found.'], 404);
         }
-    
-        // Ensure customer_id is correctly set when creating or finding the cart
-        $cart = Cart::firstOrCreate(['customer_id' => $customer->id], ['customer_id' => $customer->id]);
-    
-        // Now, continue with creating/updating the cart item as needed
-        $cartItem = CartItem::updateOrCreate(
-            ['cart_id' => $cart->id, 'candle_id' => $request->candle_id],
-            ['quantity' => $request->quantity]
-        );
-    
-        // Return the cart item with a 201 status code
+
+
+        $cart = $customer->carts()->firstOrCreate([]);
+
+
+        $cartItem = new CartItem([
+            'candle_id' => $request->input('candle_id'),
+            'quantity' => $request->input('quantity'),
+        ]);
+
+
+        $cart->cartItems()->save($cartItem);
         return response()->json($cartItem, 201);
+    
     }
     
 
@@ -65,7 +68,23 @@ class CartController extends Controller
 
     public function index()
     {
-        $cart = Cart::with('cartItems.candle')->where('customer_id', Auth::id())->first();
+        $user = Auth::user();
+
+
+        $customer = Customer::where('user_id', $user->id)->first();
+
+        if (!$customer) {
+            return response()->json(['error' => 'Customer not found.'], 404);
+        }
+
+
+        $cart = Cart::with('cartItems.candle')
+                    ->where('customer_id', $customer->id)
+                    ->first();
+
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found for this customer.'], 404);
+        }
 
         return response()->json($cart, 200);
     }

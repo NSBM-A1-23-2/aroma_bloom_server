@@ -29,7 +29,7 @@ Route::get('/cart', [CartController::class, 'index'])->middleware('auth:sanctum'
 
 
 // make purchase
-Route::post('/purchase', [OrderController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/order/place', [OrderController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/purchase/view', [OrderController::class, 'view'])->middleware('auth:sanctum');
 Route::get('/purchase/cancel', [OrderController::class, 'cancel'])->middleware('auth:sanctum');
 
